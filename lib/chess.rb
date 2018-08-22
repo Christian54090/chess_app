@@ -1,3 +1,7 @@
+require 'yaml'
+require_relative 'chess_helpers'
+Dir["./chess_pieces/*"].each{ |file| require file }
+
 class Chess
   include ChessHelpers
   attr_accessor :turns, :board
@@ -28,8 +32,8 @@ class Chess
       puts "That spot is full!"; game
     else
       if piece_shown(pos).is_valid?(pos,tar)
-        chessboard_index(tar[0],tar[1]) = chessboard_index(pos[0],pos[1])
-        chessboard_index(pos[0],pos[1]) = ' '
+  #      chessboard_index(tar[0],tar[1]) = chessboard_index(pos[0],pos[1])
+  #      chessboard_index(pos[0],pos[1]) = ' '
       else
         return 'invalid'
       end
@@ -113,3 +117,6 @@ class Chess
     exit(0)
   end
 end
+
+game = Chess.new
+game.main_menu

@@ -91,11 +91,11 @@ describe ChessHelpers do
   describe '#fit_to_board' do
 
     context 'Returns fitted array' do
-      it { expect(dummy_class.fit_to_board([4,1])).to eql([5,3]) }
+      it { expect(dummy_class.fit_to_board([4,1])).to eql([5,1]) }
     end
 
     context 'Returns another fitted array' do
-      it { expect(dummy_class.fit_to_board([7,7])).to eql([8,15])}
+      it { expect(dummy_class.fit_to_board([7,7])).to eql([8,13])}
     end
   end
 end

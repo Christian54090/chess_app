@@ -36,6 +36,6 @@ module ChessHelpers
 
   # Fits array to board
   def fit_to_board(arr)
-    [ (arr[0] + 1), ((arr[1] * 2) + 1) ]
+    [ (arr[0] + 1), ((arr[1] * 2) - 1) ]
   end
 end
