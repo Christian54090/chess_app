@@ -1,6 +1,6 @@
 require 'yaml'
 require_relative 'chess_helpers'
-Dir["./chess_pieces/*"].each{ |file| require file }
+Dir["chess_pieces/*"].each{ |file| require_relative file }
 
 class Chess
   include ChessHelpers
