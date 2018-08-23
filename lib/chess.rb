@@ -24,16 +24,13 @@ class Chess
   end
 
   def move(pos,tar,col)
-    if chessboard_index(pos[0],pos[1]) == ' '
-      puts "You cannot move an empty space!"; game
-    elsif piece_shown(chessboard_index(pos[0],pos[1])).color != col
-      puts "You cannot move the other team's piece!"; game
-    elsif !clear(chessboard_index(tar[0],tar[1]))
-      puts "That spot is full!"; game
+    case
+    when !clear(pos,col) then puts "You cannot move that position!"; game
+    when  clear(tar,col) then puts "That spot is full!"; game
     else
       if piece_shown(pos).is_valid?(pos,tar)
-  #      chessboard_index(tar[0],tar[1]) = chessboard_index(pos[0],pos[1])
-  #      chessboard_index(pos[0],pos[1]) = ' '
+        @board[tar[0]][tar[1]] = @board[pos[0]][pos[1]]
+        @board[pos[0]][pos[1]] = ' '
       else
         return 'invalid'
       end
@@ -50,7 +47,7 @@ class Chess
     print turn; puts "Example input: A2 A3"
     print '> '; choice = gets.chomp.upcase.split
 
-    case choice
+    case
     when choice.include?('SAVE')  then save_game; game
     when choice.include?('QUIT')  then quit_game
     when !correct_format?(choice) then return 'invalid input'
@@ -69,7 +66,7 @@ class Chess
 
   def checkmate?(color)
     color == 'b' ? (anti = 'w') : (anti = 'b')
-    quit_game("Checkmate!") if !(@board.include?(King.new(anti)))
+    quit_game("Checkmate!") if !(@board.include?(piece))
   end
 
   def stalemate?
@@ -84,10 +81,10 @@ class Chess
 
     print '> '; choice = gets.chomp.to_i
     case choice
-    when [1].include?(choice) then new_game
-    when [2].include?(choice) then load_game
-    when [3].include?(choice) then quit_game
-    else                      puts "Hint: Pick from the numbers"; main_menu
+    when 1 then new_game
+    when 2 then load_game
+    when 3 then quit_game
+    else     puts "Hint: Pick from the numbers"; main_menu
     end
   end
 

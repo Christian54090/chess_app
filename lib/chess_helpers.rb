@@ -38,4 +38,30 @@ module ChessHelpers
   def fit_to_board(arr)
     [ (arr[0] + 1), ((arr[1] * 2) - 1) ]
   end
+
+  # Returns the object on the board
+  def chessboard_index(row,col)
+    @board[row][col]
+  end
+
+  # Checks piece shown on board and returns a class
+  def piece_shown(index)
+    lib = {'K' => King.new('b'), 'k' => King.new('w'), blah}
+    return lib[index]
+  end
+
+  # Checks if index is empty space
+  def empty_space?(arr)
+    chessboard_index(arr[0],arr[1]) == ' '
+  end
+
+  # Checks if index is opposite team's color
+  def team_color?(arr,col)
+    piece_shown(chessboard_index(arr[0],arr[1])).color = col
+  end
+
+  # Checks if index is empty space or other team's color
+  def clear?(arr,col)
+    empty_space?(arr) || !team_color(arr,col)
+  end
 end
