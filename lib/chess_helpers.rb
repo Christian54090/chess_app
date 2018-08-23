@@ -40,28 +40,27 @@ module ChessHelpers
   end
 
   # Returns the object on the board
-  def chessboard_index(row,col)
-    @board[row][col]
+  def chessboard_index(board,row,col)
+    board[row][col]
   end
 
   # Checks piece shown on board and returns a class
-  def piece_shown(index)
-    lib = {'K' => King.new('b'), 'k' => King.new('w'), blah}
-    return lib[index]
+  def piece_shown(lib,index)
+    lib[index]
   end
 
   # Checks if index is empty space
-  def empty_space?(arr)
-    chessboard_index(arr[0],arr[1]) == ' '
+  def empty_space?(board,arr)
+    chessboard_index(board,arr[0],arr[1]) == ' '
   end
 
   # Checks if index is opposite team's color
-  def team_color?(arr,col)
-    piece_shown(chessboard_index(arr[0],arr[1])).color = col
+  def team_color?(board,arr,col)
+    piece_shown(chessboard_index(board,arr[0],arr[1])).color == col
   end
 
   # Checks if index is empty space or other team's color
-  def clear?(arr,col)
-    empty_space?(arr) || !team_color(arr,col)
+  def clear?(board,arr,col)
+    empty_space?(board,arr) || !team_color(board,arr,col)
   end
 end

@@ -5,6 +5,7 @@ Dir["chess_pieces/*"].each{ |file| require_relative file }
 class Chess
   include ChessHelpers
   attr_accessor :turns, :board
+  attr_reader   :lib
 
   def initialize
     @turns = 0
@@ -21,14 +22,15 @@ class Chess
                ' ',Pawn.new('w').piece,' ',Pawn.new('w').piece,' ',Pawn.new('w').piece,' ',Pawn.new('w').piece],
               ['8',Rook.new('w').piece,' ',Knight.new('w').piece,' ',Bishop.new('w').piece, ' ', Queen.new('w').piece,
                ' ',King.new('w').piece,' ',Bishop.new('w').piece,' ',Knight.new('w').piece, ' ',Rook.new('w').piece]]
+    @lib = {}
   end
 
   def move(pos,tar,col)
     case
-    when !clear(pos,col) then puts "You cannot move that position!"; game
-    when  clear(tar,col) then puts "That spot is full!"; game
+    when !clear(@board,pos,col) then puts "invalid"; game
+    when  clear(@board,tar,col) then puts "invalid"; game
     else
-      if piece_shown(pos).is_valid?(pos,tar)
+      if piece_shown(@library,pos).is_valid?(pos,tar)
         @board[tar[0]][tar[1]] = @board[pos[0]][pos[1]]
         @board[pos[0]][pos[1]] = ' '
       else
@@ -48,9 +50,9 @@ class Chess
     print '> '; choice = gets.chomp.upcase.split
 
     case
-    when choice.include?('SAVE')  then save_game; game
-    when choice.include?('QUIT')  then quit_game
-    when !correct_format?(choice) then return 'invalid input'
+    when  choice.include?('SAVE')  then save_game; game
+    when  choice.include?('QUIT')  then quit_game
+    when !correct_format?(choice)  then return 'invalid input'
     else
       pos = convert_input(choice)[0]
       tar = convert_input(choice)[1]
@@ -84,7 +86,7 @@ class Chess
     when 1 then new_game
     when 2 then load_game
     when 3 then quit_game
-    else     puts "Hint: Pick from the numbers"; main_menu
+    else   puts "Hint: Pick from the numbers"; main_menu
     end
   end
 
