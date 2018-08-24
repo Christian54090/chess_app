@@ -26,17 +26,14 @@ class Chess
   end
 
   def move(pos,tar,col)
-    case
-    when !clear(@board,pos,col) then puts "invalid"; game
-    when  clear(@board,tar,col) then puts "invalid"; game
+    if ( !clear(@board,pos,col) ||
+          clear(@board,tar,col) ||
+         !piece_shown(@lib,pos).is_valid?(@board,pos,tar) )
+      return 'invalid'
     else
-      if piece_shown(@lib,pos).is_valid?(@board,pos,tar)
-        piece_shown(@lib,pos).has_moved = true
-        @board[tar[0]][tar[1]] = @board[pos[0]][pos[1]]
-        @board[pos[0]][pos[1]] = ' '
-      else
-        return 'invalid'
-      end
+      piece_shown(@lib,pos).has_moved = true
+      @board[tar[0]][tar[1]] = @board[pos[0]][pos[1]]
+      @board[pos[0]][pos[1]] = ' '
     end
   end
 
@@ -53,12 +50,12 @@ class Chess
     case
     when  choice.include?('SAVE')  then save_game; game
     when  choice.include?('QUIT')  then quit_game
-    when !correct_format?(choice)  then return 'invalid input'
+    when !correct_format?(choice)  then puts 'invalid input'; game
     else
       pos = convert_input(choice)[0]
       tar = convert_input(choice)[1]
       if move(fit_to_board(pos),fit_to_board(tar)) == 'invalid'
-        return 'invalid move'
+        puts 'invalid move'; game
       else
         move(fit_to_board(pos),fit_to_board(tar),col)
         checkmate?(col); stalemate?
@@ -92,8 +89,7 @@ class Chess
   end
 
   def new_game
-    chess = Chess.new
-    chess.game
+    chess = Chess.new; chess.game
   end
 
   def save_game
@@ -113,8 +109,7 @@ class Chess
   end
 
   def quit_game(string="")
-    puts string
-    exit(0)
+    puts string; exit(0)
   end
 end
 
