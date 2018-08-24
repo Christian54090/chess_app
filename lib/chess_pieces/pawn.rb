@@ -12,10 +12,14 @@ class Pawn < Piece
   end
 
   def is_valid?(board,pos,tar)
-    @color == 'b' ? (move = @moves[0]) : (move = @moves[1])
+    @color == 'b' ? (move = [@moves[0]]) : (move = [@moves[1]])
 
     if diagonal?(board,tar)
       @color == 'b' ? (move << [1,1] << [1,-1]) : (move << [-1,1] << [-1,-1])
+    end
+
+    if blocked?(board,pos)
+      move.shift
     end
 
     if @has_moved == false
@@ -29,6 +33,14 @@ class Pawn < Piece
 
   def diagonal?(board,tar)
     board[tar[0]][tar[1]] != ' '
+  end
+
+  def blocked?(board,pos)
+    if @color == 'b'
+      board[pos[0]+1][pos[1]] != ' '
+    else
+      board[pos[0]-1][pos[1]] != ' '
+    end
   end
 
 end
