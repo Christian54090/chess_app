@@ -30,7 +30,8 @@ class Chess
     when !clear(@board,pos,col) then puts "invalid"; game
     when  clear(@board,tar,col) then puts "invalid"; game
     else
-      if piece_shown(@library,pos).is_valid?(pos,tar)
+      if piece_shown(@lib,pos).is_valid?(@board,pos,tar)
+        piece_shown(@lib,pos).has_moved = true
         @board[tar[0]][tar[1]] = @board[pos[0]][pos[1]]
         @board[pos[0]][pos[1]] = ' '
       else
