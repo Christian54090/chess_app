@@ -22,13 +22,13 @@ class Chess
                ' ',Pawn.new('w').piece,' ',Pawn.new('w').piece,' ',Pawn.new('w').piece,' ',Pawn.new('w').piece],
               ['8',Rook.new('w').piece,' ',Knight.new('w').piece,' ',Bishop.new('w').piece, ' ', Queen.new('w').piece,
                ' ',King.new('w').piece,' ',Bishop.new('w').piece,' ',Knight.new('w').piece, ' ',Rook.new('w').piece]]
-    @lib = {}
+    @lib = { "\u2659" => Pawn.new('w'), "\u265F" => Pawn.new('b') }
   end
 
   def move(pos,tar,col)
-    if ( !clear(@board,pos,col) ||
-          clear(@board,tar,col) ||
-         !piece_shown(@lib,pos).is_valid?(@board,pos,tar) )
+    if ( clear?(@board,pos,col) &&
+        !clear?(@board,tar,col) &&
+        !piece_shown(@lib,pos).is_valid?(@board,pos,tar) )
       return 'invalid'
     else
       piece_shown(@lib,pos).has_moved = true
@@ -45,7 +45,7 @@ class Chess
 
     puts "\nAt any point, type 'save' or 'quit' for those actions"
     print turn; puts "Example input: A2 A3"
-    print '> '; choice = gets.chomp.upcase.split
+    print '> '; choice = gets.chomp.upcase
 
     case
     when  choice.include?('SAVE')  then save_game; game
@@ -58,7 +58,7 @@ class Chess
         puts 'invalid move'; game
       else
         move(fit_to_board(pos),fit_to_board(tar),col)
-        checkmate?(col); stalemate?
+#        checkmate?(col); stalemate?
         @turns += 1; game
       end
     end

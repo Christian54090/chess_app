@@ -54,13 +54,13 @@ module ChessHelpers
     chessboard_index(board,arr[0],arr[1]) == ' '
   end
 
-  # Checks if index is opposite team's color
-  def team_color?(board,arr,col)
-    piece_shown(chessboard_index(board,arr[0],arr[1])).color == col
+  # Checks if index is your team's color.
+  def same_team?(lib,board,arr,col)
+    piece_shown(lib,chessboard_index(board,arr[0],arr[1])).color == col
   end
 
-  # Checks if index is empty space or other team's color
-  def clear?(board,arr,col)
-    empty_space?(board,arr) || !team_color(board,arr,col)
+  # Checks if index is empty space or other team's color.
+  def clear?(lib,board,arr,col)
+    empty_space?(board,arr) || !same_team?(lib,board,arr,col)
   end
 end

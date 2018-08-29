@@ -2,6 +2,10 @@ require 'chess_helpers'
 
 describe ChessHelpers do
   let(:dummy_class) { Class.new { extend ChessHelpers } }
+  before(:each) do
+    @board = [[1,2,3],[4,5,6],[7,' ',9]]
+    @lib   = { a: 'b', c: 'd', e: 'f' }
+  end
 
   describe '#str_in_board?' do
 
@@ -44,6 +48,7 @@ describe ChessHelpers do
     context 'Returns false given an invalid array' do
       it { expect(dummy_class.in_board?([9,9])).to eql(false) }
     end
+
   end
 
   describe '#correct_format?' do
@@ -57,18 +62,19 @@ describe ChessHelpers do
     end
 
     context 'Returns false given a string not in_board' do
-      it { expect(dummy_class.correct_format?('A9 A5')).to eql(false)}
+      it { expect(dummy_class.correct_format?('A9 A5')).to eql(false) }
     end
+
   end
 
   describe '#convert_str' do
 
     context 'Returns array given a string' do
-      it { expect(dummy_class.convert_str('A5')).to eql([5,1])}
+      it { expect(dummy_class.convert_str('A5')).to eql([5,1]) }
     end
 
     context 'Returns different array given another string' do
-      it { expect(dummy_class.convert_str('B6')).to eql([6,2])}
+      it { expect(dummy_class.convert_str('B6')).to eql([6,2]) }
     end
 
   end
@@ -76,16 +82,17 @@ describe ChessHelpers do
   describe '#convert_input' do
 
     context 'Returns array given correct input' do
-      it { expect(dummy_class.convert_input('A4 A5')).to eql([[4,1],[5,1]])}
+      it { expect(dummy_class.convert_input('A4 A5')).to eql([[4,1],[5,1]]) }
     end
 
     context 'Returns different array given different correct input' do
-      it { expect(dummy_class.convert_input('A6 A7')).to eql([[6,1],[7,1]])}
+      it { expect(dummy_class.convert_input('A6 A7')).to eql([[6,1],[7,1]]) }
     end
 
     context 'Returns invalid given an incorrect string' do
-      it { expect(dummy_class.convert_input('I9 H7')).to eql('invalid')}
+      it { expect(dummy_class.convert_input('I9 H7')).to eql('invalid') }
     end
+
   end
 
   describe '#fit_to_board' do
@@ -95,7 +102,36 @@ describe ChessHelpers do
     end
 
     context 'Returns another fitted array' do
-      it { expect(dummy_class.fit_to_board([7,7])).to eql([8,13])}
+      it { expect(dummy_class.fit_to_board([7,7])).to eql([8,13]) }
     end
+
+  end
+
+  describe '#chessboard_index' do
+
+    context 'Returns a value given a layered array' do
+      it { expect(dummy_class.chessboard_index(@board,1,2)).to eql(6) }
+    end
+
+  end
+
+  describe '#piece_shown' do
+
+    context 'Returns a value given a hash' do
+      it { expect(dummy_class.piece_shown(@lib,:a)).to eql('b') }
+    end
+
+  end
+
+  describe '#empty_space?' do
+
+    context 'Returns true given an empty space' do
+      it { expect(dummy_class.empty_space?(@board,[2,1])).to eql(true) }
+    end
+
+    context 'Returns false given a non-empty space' do
+      it { expect(dummy_class.empty_space?(@board,[1,1])).to eql(false) }
+    end
+
   end
 end
